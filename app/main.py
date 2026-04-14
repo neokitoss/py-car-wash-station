@@ -5,6 +5,11 @@ class Car:
             clean_mark: int,
             brand: str
     ) -> None:
+        if not (1 <= comfort_class <= 7):
+            raise ValueError("Comfort class must be between 1 and 7")
+        if not (1 <= clean_mark <= 10):
+            raise ValueError("Clean mark must be between 1 and 10")
+
         self.comfort_class = comfort_class
         self.clean_mark = clean_mark
         self.brand = brand
@@ -32,16 +37,15 @@ class CarWashStation:
         return round(cars_income, 1)
 
     def calculate_washing_price(self, car: Car) -> float:
-        return round(
-            (car.comfort_class
-             * (self.clean_power - car.clean_mark)
-             * self.average_rating)
-            / self.distance_from_city_center,
-            1
-        )
+        diff = self.clean_power - car.clean_mark
+        numerator = car.comfort_class * diff * self.average_rating
+        price = numerator / self.distance_from_city_center
+
+        return round(price, 1)
 
     def wash_single_car(self, car: Car) -> None:
-        car.clean_mark = self.clean_power
+        if car.clean_mark < self. clean_power:
+            car.clean_mark = self.clean_power
 
     def rate_service(self, number: int) -> None:
         self.average_rating = round(
