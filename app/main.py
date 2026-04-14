@@ -23,6 +23,12 @@ class CarWashStation:
             average_rating: float,
             count_of_ratings: int
     ) -> None:
+        if not (1.0 <= distance_from_city_center <= 10.0):
+            raise ValueError(
+                "Distance from city center must be between 1.0 and 10.0")
+        if not (1.0 <= average_rating <= 5.0):
+            raise ValueError("Average rating must be between 1.0 and 5.0")
+
         self.distance_from_city_center = distance_from_city_center
         self.clean_power = clean_power
         self.average_rating = average_rating
@@ -31,7 +37,7 @@ class CarWashStation:
     def serve_cars(self, cars: list[Car]) -> float:
         cars_income = 0
         for car in cars:
-            if car.clean_mark < self. clean_power:
+            if car.clean_mark < self.clean_power:
                 cars_income += self.calculate_washing_price(car)
                 self.wash_single_car(car)
         return round(cars_income, 1)
